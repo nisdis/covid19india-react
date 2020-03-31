@@ -112,10 +112,10 @@ function Row(props) {
         <td
           style={{color: parseInt(state.active) === 0 ? '#B5B5B5' : 'inherit'}}
         >
-          {/* <span className="deltas" style={{color: '#007bff'}}>
-            {!state.delta.active==0 && <Icon.ArrowUp/>}
-            {state.delta.active>0 ? `${state.delta.active}` : ''}
-          </span>*/}
+          <span className="deltas" style={{color: '#007bff'}}>
+            {!state.delta.active === 0 && <Icon.ArrowUp />}
+            {state.delta.active > 0 ? `${state.delta.active}` : ''}
+          </span>
           {parseInt(state.active) === 0 ? '-' : state.active}
         </td>
         <td
@@ -123,19 +123,19 @@ function Row(props) {
             color: parseInt(state.recovered) === 0 ? '#B5B5B5' : 'inherit',
           }}
         >
-          {/* <span className="deltas" style={{color: '#28a745'}}>
-            {!state.delta.recovered==0 && <Icon.ArrowUp/>}
+          <span className="deltas" style={{color: '#28a745'}}>
+            {!state.delta.recovered === 0 && <Icon.ArrowUp />}
             {state.delta.recovered > 0 ? `${state.delta.recovered}` : ''}
-          </span>*/}
+          </span>
           {parseInt(state.recovered) === 0 ? '-' : state.recovered}
         </td>
         <td
           style={{color: parseInt(state.deaths) === 0 ? '#B5B5B5' : 'inherit'}}
         >
-          {/* <span className="deltas" style={{color: '#6c757d'}}>
-            {!state.delta.deaths==0 && <Icon.ArrowUp/>}
-            {state.delta.deaths>0 ? `${state.delta.deaths}` : ''}
-          </span>*/}
+          <span className="deltas" style={{color: '#6c757d'}}>
+            {!state.delta.deaths === 0 && <Icon.ArrowUp />}
+            {state.delta.deaths > 0 ? `${state.delta.deaths}` : ''}
+          </span>
           {parseInt(state.deaths) === 0 ? '-' : state.deaths}
         </td>
       </tr>

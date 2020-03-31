@@ -21,25 +21,25 @@ function App() {
   // Add a new page simply by adding a new entry in this array.
   const pages = [
     {
-      pageLink: '/',
+      pageLink: '/covid-dashboard',
       view: Home,
       displayName: 'Home',
       animationDelayForNavbar: 0.2,
     },
     {
-      pageLink: '/clusters',
+      pageLink: '/covid-dashboard/clusters',
       view: Cluster,
       displayName: 'Clusters',
       animationDelayForNavbar: 0.3,
     },
     {
-      pageLink: '/links',
+      pageLink: '/covid-dashboard/links',
       view: Links,
       displayName: 'Helpful Links',
       animationDelayForNavbar: 0.4,
     },
     {
-      pageLink: '/faq',
+      pageLink: '/covid-dashboard/faq',
       view: FAQ,
       displayName: 'FAQ',
       animationDelayForNavbar: 0.4,
@@ -53,7 +53,6 @@ function App() {
           render={({location}) => (
             <div className="Almighty-Router">
               <Navbar pages={pages} />
-              <Banner />
               <Route exact path="/" render={() => <Redirect to="/" />} />
               <Switch location={location}>
                 {pages.map((page, i) => {
@@ -72,8 +71,9 @@ function App() {
         />
       </Router>
       <footer className="fadeInUp" style={{animationDelay: '2s'}}>
+        <Banner />
         <img
-          src="/icon.png"
+          src="/covid-dashboard/icon.png"
           alt="https://www.covid19india.org | Coronavirus cases live dashboard"
         />
         <h5>We stand with everyone fighting on the frontlines</h5>

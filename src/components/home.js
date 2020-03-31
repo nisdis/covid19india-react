@@ -7,16 +7,17 @@ import Level from './level';
 import MapExplorer from './mapexplorer';
 import TimeSeries from './timeseries';
 import Minigraph from './minigraph';
+import SlangInterface from '../voice/slang';
 
 function Home(props) {
   const [states, setStates] = useState([]);
   const [stateDistrictWiseData, setStateDistrictWiseData] = useState({});
   const [fetched, setFetched] = useState(false);
-  const [graphOption, setGraphOption] = useState(1);
+  const [graphOption, setGraphOption] = useState(2);
   const [lastUpdated, setLastUpdated] = useState('');
   const [timeseries, setTimeseries] = useState([]);
   const [deltas, setDeltas] = useState([]);
-  const [timeseriesMode, setTimeseriesMode] = useState(true);
+  const [timeseriesMode, setTimeseriesMode] = useState(false);
   const [stateHighlighted, setStateHighlighted] = useState(undefined);
   const [districtHighlighted, setDistrictHighlighted] = useState(undefined);
 
@@ -44,17 +45,20 @@ function Home(props) {
   };
 
   const onHighlightState = (state, index) => {
+    console.log(state, index);
     if (!state && !index) setStateHighlighted(null);
     else setStateHighlighted({state, index});
   };
   const onHighlightDistrict = (district, state, index) => {
+    console.log(district, state, index);
+
     if (!state && !index && !district) setDistrictHighlighted(null);
     else setDistrictHighlighted({district, state, index});
   };
 
   return (
-    <div className="Home">
-      <div className="home-left">
+    <>
+      <div style={{width: 960, maxWidth: '100%', margin: '5px auto'}}>
         <div className="header fadeInUp" style={{animationDelay: '0.5s'}}>
           <div className="header-mid">
             <div className="titles">
@@ -74,76 +78,82 @@ function Home(props) {
             </div>
           </div>
         </div>
-
         <Level data={states} deltas={deltas} />
         <Minigraph timeseries={timeseries} animate={true} />
-
-        <Table
-          states={states}
-          summary={false}
-          onHighlightState={onHighlightState}
-          stateDistrictWiseData={stateDistrictWiseData}
-          onHighlightDistrict={onHighlightDistrict}
-        />
       </div>
+      <div className="Home">
+        <div className="home-left">
+          {fetched && (
+            <React.Fragment>
+              <MapExplorer
+                states={states}
+                stateDistrictWiseData={stateDistrictWiseData}
+                stateHighlighted={stateHighlighted}
+                districtHighlighted={districtHighlighted}
+              />
+              <SlangInterface
+                states={states}
+                onHighlightState={onHighlightState}
+                stateDistrictWiseData={stateDistrictWiseData}
+                onHighlightDistrict={onHighlightDistrict}
+              />
+            </React.Fragment>
+          )}
+        </div>
 
-      <div className="home-right">
-        {fetched && (
-          <React.Fragment>
-            <MapExplorer
-              states={states}
-              stateDistrictWiseData={stateDistrictWiseData}
-              stateHighlighted={stateHighlighted}
-              districtHighlighted={districtHighlighted}
-            />
-
-            <div
-              className="timeseries-header fadeInUp"
-              style={{animationDelay: '1.5s'}}
-            >
-              <h1>Spread Trends</h1>
-              <div className="tabs">
-                <div
-                  className={`tab ${graphOption === 1 ? 'focused' : ''}`}
-                  onClick={() => {
-                    setGraphOption(1);
-                  }}
-                >
-                  <h4>Cumulative</h4>
-                </div>
-                <div
-                  className={`tab ${graphOption === 2 ? 'focused' : ''}`}
-                  onClick={() => {
-                    setGraphOption(2);
-                  }}
-                >
-                  <h4>Daily</h4>
-                </div>
+        <div className="home-right">
+          <Table
+            states={states}
+            summary={false}
+            onHighlightState={onHighlightState}
+            stateDistrictWiseData={stateDistrictWiseData}
+            onHighlightDistrict={onHighlightDistrict}
+          />
+          <div
+            className="timeseries-header fadeInUp"
+            style={{animationDelay: '1.5s'}}
+          >
+            <h1>Spread Trends</h1>
+            <div className="tabs">
+              <div
+                className={`tab ${graphOption === 1 ? 'focused' : ''}`}
+                onClick={() => {
+                  setGraphOption(1);
+                }}
+              >
+                <h4>Cumulative</h4>
               </div>
-
-              <div className="timeseries-mode">
-                <label htmlFor="timeseries-mode">Scale Uniformly</label>
-                <input
-                  type="checkbox"
-                  className="switch"
-                  aria-label="Checked by default to scale uniformly."
-                  checked={timeseriesMode}
-                  onChange={(event) => {
-                    setTimeseriesMode(!timeseriesMode);
-                  }}
-                />
+              <div
+                className={`tab ${graphOption === 2 ? 'focused' : ''}`}
+                onClick={() => {
+                  setGraphOption(2);
+                }}
+              >
+                <h4>Daily</h4>
               </div>
             </div>
 
-            <TimeSeries
-              timeseries={timeseries}
-              type={graphOption}
-              mode={timeseriesMode}
-            />
-          </React.Fragment>
-        )}
+            <div className="timeseries-mode">
+              <label htmlFor="timeseries-mode">Scale Uniformly</label>
+              <input
+                type="checkbox"
+                className="switch"
+                aria-label="Checked by default to scale uniformly."
+                checked={timeseriesMode}
+                onChange={(event) => {
+                  setTimeseriesMode(!timeseriesMode);
+                }}
+              />
+            </div>
+          </div>
+          <TimeSeries
+            timeseries={timeseries}
+            type={graphOption}
+            mode={timeseriesMode}
+          />
+        </div>
       </div>
-    </div>
+    </>
   );
 }
 

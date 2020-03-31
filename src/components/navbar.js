@@ -10,24 +10,33 @@ function Navbar(props) {
     },
   });
 
-  if (window.location.pathname !== '/summary') {
+  if (window.location.pathname !== '/covid-dashboard/summary') {
     return (
       <div
         className="Navbar"
         style={{
           animationDelay: '0.5s',
-          height: window.location.pathname === '/clusters' ? '2.5rem' : '',
+          height:
+            window.location.pathname === '/covid-dashboard/clusters'
+              ? '2.5rem'
+              : '',
           transition: 'all 0.3s ease-in-out',
         }}
       >
         <img
           className="fadeInUp logo"
           alt="India COVID-19 Tracker"
-          src="/icon.png"
+          src="/covid-dashboard/icon.png"
           style={{
             animationDelay: '0.0s',
-            width: window.location.pathname === '/clusters' ? '1.5rem' : '',
-            height: window.location.pathname === '/clusters' ? '1.5rem' : '',
+            width:
+              window.location.pathname === '/covid-dashboard/clusters'
+                ? '1.5rem'
+                : '',
+            height:
+              window.location.pathname === '/covid-dashboard/clusters'
+                ? '1.5rem'
+                : '',
             transition: 'all 0.3s ease-in-out',
           }}
         />
