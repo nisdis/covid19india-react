@@ -3,4 +3,4 @@ export const MAP_TYPES = {
   STATE: 'state',
 };
 
-export const MAPS_DIR = '/maps';
+export const MAPS_DIR = '/covid-dashboard/maps';

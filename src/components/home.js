@@ -15,6 +15,7 @@ import MapExplorer from './mapexplorer';
 import TimeSeries from './timeseries';
 import Minigraph from './minigraph';
 /* import Patients from './patients';*/
+import SlangInterface from '../voice/slang';
 
 function Home(props) {
   const [states, setStates] = useState([]);
@@ -91,6 +92,17 @@ function Home(props) {
 
         {states.length > 1 && <Level data={states} />}
         <Minigraph timeseries={timeseries} animate={true} />
+
+        {fetched && (
+          <MapExplorer
+            states={states}
+            stateDistrictWiseData={stateDistrictWiseData}
+            regionHighlighted={regionHighlighted}
+          />
+        )}
+      </div>
+
+      <div className="home-right">
         <Table
           states={states}
           summary={false}
@@ -98,17 +110,8 @@ function Home(props) {
           onHighlightState={onHighlightState}
           onHighlightDistrict={onHighlightDistrict}
         />
-      </div>
-
-      <div className="home-right">
         {fetched && (
           <React.Fragment>
-            <MapExplorer
-              states={states}
-              stateDistrictWiseData={stateDistrictWiseData}
-              regionHighlighted={regionHighlighted}
-            />
-
             <div
               className="timeseries-header fadeInUp"
               style={{animationDelay: '1.5s'}}
@@ -172,8 +175,13 @@ function Home(props) {
               mode={timeseriesMode}
               logMode={timeseriesLogMode}
             />
-
             {/* Testing Rebuild*/}
+            <SlangInterface
+              states={states}
+              onHighlightState={onHighlightState}
+              stateDistrictWiseData={stateDistrictWiseData}
+              onHighlightDistrict={onHighlightDistrict}
+            />
           </React.Fragment>
         )}
       </div>

@@ -111,10 +111,10 @@ function Row(props) {
         <td
           style={{color: parseInt(state.active) === 0 ? '#B5B5B5' : 'inherit'}}
         >
-          {/* <span className="deltas" style={{color: '#007bff'}}>
-            {!state.delta.active==0 && <Icon.ArrowUp/>}
-            {state.delta.active>0 ? `${state.delta.active}` : ''}
-          </span>*/}
+          <span className="deltas" style={{color: '#007bff'}}>
+            {!state.delta.active === 0 && <Icon.ArrowUp />}
+            {state.delta.active > 0 ? `${state.delta.active}` : ''}
+          </span>
           {parseInt(state.active) === 0 ? '-' : state.active}
         </td>
         <td
@@ -123,8 +123,13 @@ function Row(props) {
           }}
         >
           <span className="deltas" style={{color: '#28a745'}}>
+<<<<<<< HEAD
             {state.deltarecovered > 0 && <Icon.ArrowUp />}
             {state.deltarecovered > 0 ? `${state.deltarecovered}` : ''}
+=======
+            {!state.delta.recovered === 0 && <Icon.ArrowUp />}
+            {state.delta.recovered > 0 ? `${state.delta.recovered}` : ''}
+>>>>>>> Add voice query and layout change to the home page
           </span>
           {parseInt(state.recovered) === 0 ? '-' : state.recovered}
         </td>
@@ -132,8 +137,13 @@ function Row(props) {
           style={{color: parseInt(state.deaths) === 0 ? '#B5B5B5' : 'inherit'}}
         >
           <span className="deltas" style={{color: '#6c757d'}}>
+<<<<<<< HEAD
             {state.deltadeaths > 0 && <Icon.ArrowUp />}
             {state.deltadeaths > 0 ? `${state.deltadeaths}` : ''}
+=======
+            {!state.delta.deaths === 0 && <Icon.ArrowUp />}
+            {state.delta.deaths > 0 ? `${state.delta.deaths}` : ''}
+>>>>>>> Add voice query and layout change to the home page
           </span>
           {parseInt(state.deaths) === 0 ? '-' : state.deaths}
         </td>

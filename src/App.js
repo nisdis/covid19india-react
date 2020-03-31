@@ -13,33 +13,33 @@ import Home from './components/home';
 import Navbar from './components/navbar';
 import Links from './components/links';
 import FAQ from './components/faq';
-import Banner from './components/banner';
-/* import PatientDB from './components/patientdb';*/
+/* import Banner from './components/banner';
+import PatientDB from './components/patientdb'; */
 
 const history = require('history').createBrowserHistory;
 
 function App() {
   const pages = [
     {
-      pageLink: '/',
+      pageLink: '/covid-dashboard',
       view: Home,
       displayName: 'Home',
       animationDelayForNavbar: 0.2,
     },
     /* {
-      pageLink: '/database',
+      pageLink: '/covid-dashboard/database',
       view: PatientDB,
       displayName: 'Patients DB',
       animationDelayForNavbar: 0.3,
-    },*/
+    }, */
     {
-      pageLink: '/links',
+      pageLink: '/covid-dashboard/links',
       view: Links,
       displayName: 'Helpful Links',
       animationDelayForNavbar: 0.5,
     },
     {
-      pageLink: '/faq',
+      pageLink: '/covid-dashboard/faq',
       view: FAQ,
       displayName: 'FAQ',
       animationDelayForNavbar: 0.6,
@@ -53,7 +53,6 @@ function App() {
           render={({location}) => (
             <div className="Almighty-Router">
               <Navbar pages={pages} />
-              <Banner />
               <Route exact path="/" render={() => <Redirect to="/" />} />
               <Switch location={location}>
                 {pages.map((page, i) => {
@@ -77,7 +76,9 @@ function App() {
         {/* <img
           src="/icon.png"
           alt="https://www.covid19india.org | Coronavirus cases live dashboard"
-        />*/}
+        />
+        <Banner />
+        */}
 
         <h5>We stand with everyone fighting on the frontlines</h5>
         <div className="link">
