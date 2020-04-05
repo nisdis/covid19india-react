@@ -18,10 +18,9 @@ Slang.initialize({
 
 function SlangInterface(props) {
   const {states, stateDistrictWiseData} = props;
-  //   const [states, setStates] = useState(props.states);
 
   const theNumberDistrict = Object.keys(stateDistrictWiseData).reduce(
-    (acc, state, index) => {
+    (acc, state) => {
       const dist = Object.keys(stateDistrictWiseData[state]['districtData'])
         .filter((i) => i.toLowerCase() !== 'unknown')
         .map((district) => ({
@@ -33,99 +32,98 @@ function SlangInterface(props) {
     },
     []
   );
+  let index;
+  let district;
+  let state;
+
+  const replyWithStates = (intent) => {
+    const stateQuery =
+      intent.getEntity('state').isResolved &&
+      intent.getEntity('state').value.trim().toLowerCase();
+
+    const dataTypeQuery = intent.getEntity('data_type').isResolved
+      ? intent.getEntity('data_type').value.trim().toLowerCase()
+      : 'confirmed';
+
+    const theNumber =
+      stateQuery &&
+      states.find((item, i) => {
+        index = i;
+        return item.state.trim().toLowerCase() === stateQuery;
+      });
+
+    // active: "183"
+    // confirmed: "215"
+    // deaths: "7"
+    // delta: {active: 12, confirmed: 12, deaths: 0, recovered: 0}
+    // lastupdatedtime: "30/03/2020 10:02:25"
+    // recovered: "25"
+    // state: "Maharashtra"
+    if (dataTypeQuery && stateQuery && theNumber && theNumber[dataTypeQuery]) {
+      props.onHighlightState(theNumber, index);
+      window.location.hash = '#MapStats';
+      Slang.startConversation(
+        dataTypeQuery +
+          ' cases in ' +
+          stateQuery +
+          ' is ' +
+          theNumber[dataTypeQuery],
+        true
+      );
+    } else {
+      Slang.startConversation("We couldn't find data for your query.");
+    }
+    // setTimeout(() => {
+    //   Slang.cancel()
+    // }, 5000);
+    window.location.hash = '#_';
+    index = district = state = undefined;
+  };
+
+  const replyWithDistricts = (intent) => {
+    const districtQuery =
+      intent.getEntity('district').isResolved &&
+      intent.getEntity('district').value.trim().toLowerCase();
+
+    const theNumberDistrictConfirmed =
+      districtQuery &&
+      theNumberDistrict.reduce((acc, item) => {
+        if (item.name.trim().toLowerCase() === districtQuery) {
+          index = item.state;
+          district = item.name;
+          state = item;
+          return item.confirmed;
+        }
+        return acc;
+      });
+
+    if (districtQuery && theNumberDistrictConfirmed) {
+      window.location.hash = '#MapStats';
+      index = states.findIndex((x) => x.state === index);
+      props.onHighlightDistrict(district, state, index);
+
+      Slang.startConversation(
+        'Confirmed cases in ' +
+          districtQuery +
+          ' is ' +
+          theNumberDistrictConfirmed,
+        true
+      );
+    } else {
+      Slang.startConversation("We couldn't find data for your query.");
+    }
+    window.location.hash = '#_';
+
+    index = district = state = undefined;
+  };
   try {
     Slang.setIntentActionHandler((intent) => {
-      let index;
-      let district;
-      let state;
-
       switch (intent.name) {
         case 'reply_with_districts':
-          const districtQuery =
-            intent.getEntity('district').isResolved &&
-            intent.getEntity('district').value.trim().toLowerCase();
-
-          const theNumberDistrictConfirmed =
-            districtQuery &&
-            theNumberDistrict.reduce((acc, item) => {
-              if (item.name.trim().toLowerCase() === districtQuery) {
-                index = item.state;
-                district = item.name;
-                state = item;
-                return item.confirmed;
-              }
-              return acc;
-            });
-
-          if (districtQuery && theNumberDistrictConfirmed) {
-            window.location.hash = '#MapStats';
-            index = states.findIndex((x) => x.state === index);
-            props.onHighlightDistrict(district, state, index);
-
-            Slang.startConversation(
-              'Confirmed cases in ' +
-                districtQuery +
-                ' is ' +
-                theNumberDistrictConfirmed,
-              true
-            );
-          } else {
-            Slang.startConversation(
-              "We couldn't find data for your query. Try saying a the name of a district or full name of a state in India"
-            );
-          }
-          window.location.hash = '#_';
-
-          // setTimeout(() => {
-          //   Slang.cancel()
-          // }, 5000);
-
+          replyWithDistricts(intent);
           return true;
         case 'reply_with_states':
-          const stateQuery =
-            intent.getEntity('state').isResolved &&
-            intent.getEntity('state').value.trim().toLowerCase();
-
-          const dataTypeQuery = intent.getEntity('data_type').isResolved
-            ? intent.getEntity('data_type').value.trim().toLowerCase()
-            : 'confirmed';
-
-          const theNumber =
-            stateQuery &&
-            states.find((item, i) => {
-              index = i;
-              return item.state.trim().toLowerCase() === stateQuery;
-            });
-
-          // active: "183"
-          // confirmed: "215"
-          // deaths: "7"
-          // delta: {active: 12, confirmed: 12, deaths: 0, recovered: 0}
-          // lastupdatedtime: "30/03/2020 10:02:25"
-          // recovered: "25"
-          // state: "Maharashtra"
-
-          if (dataTypeQuery && stateQuery && theNumber) {
-            props.onHighlightState(theNumber, index);
-            window.location.hash = '#MapStats';
-            Slang.startConversation(
-              dataTypeQuery +
-                ' cases in ' +
-                stateQuery +
-                ' is ' +
-                theNumber[dataTypeQuery],
-              true
-            );
-          } else {
-            Slang.startConversation(
-              "We couldn't find data for your query. Try saying a the name of a district or full name of a state in India"
-            );
-          }
-          // setTimeout(() => {
-          //   Slang.cancel()
-          // }, 5000);
-          window.location.hash = '#_';
-
+          replyWithStates(intent);
           return true;
         default:
           return false;
