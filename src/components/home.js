@@ -22,7 +22,7 @@ function Home(props) {
   const [stateDistrictWiseData, setStateDistrictWiseData] = useState({});
   /* const [patients, setPatients] = useState([]);*/
   const [fetched, setFetched] = useState(false);
-  const [graphOption, setGraphOption] = useState(1);
+  const [graphOption, setGraphOption] = useState(2);
   const [lastUpdated, setLastUpdated] = useState('');
   const [timeseries, setTimeseries] = useState([]);
   const [timeseriesMode, setTimeseriesMode] = useState(true);
@@ -63,8 +63,8 @@ function Home(props) {
   };
 
   return (
-    <div className="Home">
-      <div className="home-left">
+    <>
+      <div style={{width: 960, maxWidth: '100%', margin: '5px auto'}}>
         <div className="header fadeInUp" style={{animationDelay: '0.5s'}}>
           <div className="header-mid">
             <div className="titles">
@@ -219,7 +219,7 @@ function Home(props) {
       </div>
       <div className="home-right"></div>
     */}
-    </div>
+    </>
   );
 }
 
