@@ -112,8 +112,8 @@ function Row(props) {
           style={{color: parseInt(state.active) === 0 ? '#B5B5B5' : 'inherit'}}
         >
           <span className="deltas" style={{color: '#007bff'}}>
-            {!state.delta.active === 0 && <Icon.ArrowUp />}
-            {state.delta.active > 0 ? `${state.delta.active}` : ''}
+            {!state.deltaactive === 0 && <Icon.ArrowUp />}
+            {state.deltaactive > 0 ? `${state.delta.active}` : ''}
           </span>
           {parseInt(state.active) === 0 ? '-' : state.active}
         </td>

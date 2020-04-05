@@ -92,98 +92,101 @@ function Home(props) {
 
         {states.length > 1 && <Level data={states} />}
         <Minigraph timeseries={timeseries} animate={true} />
-
-        {fetched && (
-          <MapExplorer
-            states={states}
-            stateDistrictWiseData={stateDistrictWiseData}
-            regionHighlighted={regionHighlighted}
-          />
-        )}
       </div>
-
-      <div className="home-right">
-        <Table
-          states={states}
-          summary={false}
-          stateDistrictWiseData={stateDistrictWiseData}
-          onHighlightState={onHighlightState}
-          onHighlightDistrict={onHighlightDistrict}
-        />
-        {fetched && (
-          <React.Fragment>
-            <div
-              className="timeseries-header fadeInUp"
-              style={{animationDelay: '1.5s'}}
-            >
-              <h1>Spread Trends</h1>
-              <div className="tabs">
-                <div
-                  className={`tab ${graphOption === 1 ? 'focused' : ''}`}
-                  onClick={() => {
-                    setGraphOption(1);
-                  }}
-                >
-                  <h4>Cumulative</h4>
-                </div>
-                <div
-                  className={`tab ${graphOption === 2 ? 'focused' : ''}`}
-                  onClick={() => {
-                    setGraphOption(2);
-                  }}
-                >
-                  <h4>Daily</h4>
-                </div>
-              </div>
-
-              <div className="scale-modes">
-                <label>Scale Modes</label>
-                <div className="timeseries-mode">
-                  <label htmlFor="timeseries-mode">Uniform</label>
-                  <input
-                    type="checkbox"
-                    checked={timeseriesMode}
-                    className="switch"
-                    aria-label="Checked by default to scale uniformly."
-                    onChange={(event) => {
-                      setTimeseriesMode(!timeseriesMode);
-                    }}
-                  />
-                </div>
-                <div
-                  className={`timeseries-logmode ${
-                    graphOption !== 1 ? 'disabled' : ''
-                  }`}
-                >
-                  <label htmlFor="timeseries-logmode">Logarithmic</label>
-                  <input
-                    type="checkbox"
-                    checked={graphOption === 1 && timeseriesLogMode}
-                    className="switch"
-                    disabled={graphOption !== 1}
-                    onChange={(event) => {
-                      setTimeseriesLogMode(!timeseriesLogMode);
-                    }}
-                  />
-                </div>
-              </div>
-            </div>
-
-            <TimeSeries
-              timeseries={timeseries}
-              type={graphOption}
-              mode={timeseriesMode}
-              logMode={timeseriesLogMode}
-            />
-            {/* Testing Rebuild*/}
-            <SlangInterface
+      <div className="Home">
+        <div className="home-left">
+          {fetched && (
+            <MapExplorer
               states={states}
-              onHighlightState={onHighlightState}
               stateDistrictWiseData={stateDistrictWiseData}
-              onHighlightDistrict={onHighlightDistrict}
+              regionHighlighted={regionHighlighted}
             />
-          </React.Fragment>
-        )}
+          )}
+        </div>
+
+        <div className="home-right">
+          <Table
+            states={states}
+            summary={false}
+            stateDistrictWiseData={stateDistrictWiseData}
+            onHighlightState={onHighlightState}
+            onHighlightDistrict={onHighlightDistrict}
+          />
+          {fetched && (
+            <React.Fragment>
+              <div
+                className="timeseries-header fadeInUp"
+                style={{animationDelay: '1.5s'}}
+              >
+                <h1>Spread Trends</h1>
+                <div className="tabs">
+                  <div
+                    className={`tab ${graphOption === 1 ? 'focused' : ''}`}
+                    onClick={() => {
+                      setGraphOption(1);
+                    }}
+                  >
+                    <h4>Cumulative</h4>
+                  </div>
+                  <div
+                    className={`tab ${graphOption === 2 ? 'focused' : ''}`}
+                    onClick={() => {
+                      setGraphOption(2);
+                    }}
+                  >
+                    <h4>Daily</h4>
+                  </div>
+                </div>
+
+                <div className="scale-modes">
+                  <label>Scale Modes</label>
+                  <div className="timeseries-mode">
+                    <label htmlFor="timeseries-mode">Uniform</label>
+                    <input
+                      type="checkbox"
+                      checked={timeseriesMode}
+                      className="switch"
+                      aria-label="Checked by default to scale uniformly."
+                      onChange={(event) => {
+                        setTimeseriesMode(!timeseriesMode);
+                      }}
+                    />
+                  </div>
+                  <div
+                    className={`timeseries-logmode ${
+                      graphOption !== 1 ? 'disabled' : ''
+                    }`}
+                  >
+                    <label htmlFor="timeseries-logmode">Logarithmic</label>
+                    <input
+                      type="checkbox"
+                      checked={graphOption === 1 && timeseriesLogMode}
+                      className="switch"
+                      disabled={graphOption !== 1}
+                      onChange={(event) => {
+                        setTimeseriesLogMode(!timeseriesLogMode);
+                      }}
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <TimeSeries
+                timeseries={timeseries}
+                type={graphOption}
+                mode={timeseriesMode}
+                logMode={timeseriesLogMode}
+              />
+              {/* Testing Rebuild*/}
+              <SlangInterface
+                states={states}
+                onHighlightState={onHighlightState}
+                stateDistrictWiseData={stateDistrictWiseData}
+                onHighlightDistrict={onHighlightDistrict}
+              />
+            </React.Fragment>
+          )}
+        </div>
       </div>
 
       {/* <div className="home-left">
